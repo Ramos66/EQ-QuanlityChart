@@ -1,0 +1,29 @@
+<nz-tabset>
+  <nz-tab [nzTitle]="titleTemplate1">
+    <ng-template #titleTemplate1> <i nz-icon nzType="setting" nzTheme="outline"></i>对内数据配置 </ng-template>
+    <app-images></app-images>
+  </nz-tab>
+  <nz-tab [nzTitle]="titleTemplate2">
+    <ng-template #titleTemplate2> <i nz-icon nzType="pie-chart" nzTheme="outline"></i>对内图表展示 </ng-template>
+    <div nz-row>
+      <img style="width: 700px;height: 700px;" alt="图片加载失败！"
+        ng-src="D:\hezq\angular\EP-QualityChart\src\images\test.jpg" />
+      <cdk-virtual-scroll-viewport itemSize="10">
+        <nz-list>
+          <nz-list-item *cdkVirtualFor="let image of listOfImage">
+
+          </nz-list-item>
+        </nz-list>
+      </cdk-virtual-scroll-viewport>
+    </div>
+
+  </nz-tab>
+  <nz-tab [nzTitle]="titleTemplate3">
+    <ng-template #titleTemplate3> <i nz-icon nzType="setting" nzTheme="outline"></i>对外数据配置 </ng-template>
+
+  </nz-tab>
+  <nz-tab [nzTitle]="titleTemplate4">
+    <ng-template #titleTemplate4> <i nz-icon nzType="pie-chart" nzTheme="outline"></i>对外图表展示 </ng-template>
+
+  </nz-tab>
+</nz-tabset>

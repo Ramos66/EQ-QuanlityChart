@@ -1,0 +1,106 @@
+<div nz-row>
+  <div nz-col nzSpan="3">
+    <label>项目：</label>
+    <nz-select
+      id="project"
+      [(ngModel)]="selectedProject"
+      (ngModelChange)="projectChange()"
+      nzAllowClear
+      nzPlaceHolder="项目"
+    >
+      <nz-option nzValue="Vinci" nzLabel="Vinci"></nz-option>
+      <nz-option nzValue="Duffy" nzLabel="Duffy"></nz-option>
+      <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
+    </nz-select>
+  </div>
+  <div nz-col nzSpan="6">
+    <label>时间：</label>
+    <nz-range-picker id="setime" [(ngModel)]="dateRange" (ngModelChange)="onChange($event)"></nz-range-picker>
+  </div>
+  <div nz-col nzSpan="5">
+    <label>维度：</label>
+    <nz-select id="dimension" nzMode="multiple" nzPlaceHolder="请选择数据维度" [(ngModel)]="listOfSelectedDimension">
+      <nz-option *ngFor="let option of listOfDimension" [nzLabel]="option" [nzValue]="option"></nz-option>
+      <nz-option *ngFor="let option of defaultDimension" [nzLabel]="option" [nzValue]="option" nzHide></nz-option>
+    </nz-select>
+  </div>
+  <div nz-col nzSpan="3">
+    <label>误差比例：</label>
+    <nz-select id="radio" nzPlaceHolder="误差比例" [(ngModel)]="selectedRatio">
+      <nz-option *ngFor="let option of listOfRatio" [nzLabel]="option" [nzValue]="option"></nz-option>
+    </nz-select>
+  </div>
+  <div nz-col nzSpan="3">
+    <label>样本数量：</label>
+    <input id="sample" nz-input [(ngModel)]="sample" placeholder="样本数量" />
+  </div>
+</div>
+<br />
+<div nz-row>
+  <div nz-col nzSpan="12">
+    <cdk-virtual-scroll-viewport itemSize="10" class="demo-infinite-container">
+      <nz-list>
+        <nz-list-item *cdkVirtualFor="let item of procedureList">
+          <app-config-select-detail [procedure]="item"></app-config-select-detail>
+        </nz-list-item>
+      </nz-list>
+    </cdk-virtual-scroll-viewport>
+    <!-- <nz-list [nzPagination]="pagination" [nzDataSource]="procedureList" nzBordered [nzHeader]="'过程AOI & 关键性能——性能项'"
+      [nzRenderItem]="defaultItem">
+      <ng-template #defaultItem let-item>
+        <nz-list-item>
+          <app-config-select-detail [procedure]="item"></app-config-select-detail>
+         <span class="ant-typography"><mark>{{item.procedureName}}： </mark></span>
+          <nz-select id="dimension" nzMode="multiple" nzPlaceHolder="请选择数据维度" [(ngModel)]="listOfSelectedDimension">
+            <nz-option *ngFor="let option of item.itemList" [nzLabel]="option" [nzValue]="option"></nz-option>
+            <nz-option *ngFor="let option of item.itemList" [nzLabel]="option" [nzValue]="option" nzHide></nz-option>
+          </nz-select>        
+        </nz-list-item>
+      </ng-template>
+      <ng-template #pagination>
+        <nz-pagination [nzPageIndex]="1" [nzTotal]="50" (nzPageIndexChange)="loadData($event)"></nz-pagination>
+      </ng-template>
+    </nz-list>-->
+  </div>
+  <div nz-col nzSpan="12">
+    <div>
+      <button nz-button id="btnAdd" nzType="primary"><i nz-icon nzType="plus" nzTheme="outline"></i>添加</button>
+      <button nz-button id="btnRemove" nzType="danger"><i nz-icon nzType="close" nzTheme="outline"></i>删除</button>
+    </div>
+    <nz-table
+      #rowSelectionTable
+      nzShowSizeChanger
+      [nzData]="listOfChartGroup"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+      [nzScroll]="{ x: '100' }"
+    >
+      <thead>
+        <tr>
+          <th
+            nzShowCheckbox
+            nzShowRowSelection
+            [(nzChecked)]="isAllDisplayDataChecked"
+            [nzIndeterminate]="isIndeterminate"
+            (nzCheckedChange)="checkAll($event)"
+          ></th>
+          <th>项目</th>
+          <th>维度</th>
+          <th>性能项</th>
+          <th>误差比例</th>
+          <th>样本数量</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of rowSelectionTable.data">
+          <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" (nzCheckedChange)="refreshStatus()"></td>
+          <td>{{ data.project }}</td>
+          <td>{{ data.demension }}</td>
+          <td>{{ data.itemList }}</td>
+          <td>{{ data.errorRatio }}</td>
+          <td>{{ data.sample }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+<button nz-button nzType="primary" (click)="loadOne()" [nzLoading]="isLoadingOne">生成图表</button>

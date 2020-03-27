@@ -1,0 +1,8 @@
+<div *ngIf="procedure">
+  <span class="ant-typography" style="width: 100px"><mark>{{procedure.procedureName}}： </mark></span>
+  <nz-select nzMode="multiple" style="width: 700px;" nzPlaceHolder="请选择性能项..." [(ngModel)]="procedure.selectedItemList">
+    <nz-option *ngFor="let option of procedure.itemList" [nzLabel]="option" [nzValue]="option"></nz-option>
+    <nz-option *ngFor="let option of procedure.defaultItemList" [nzLabel]="option" [nzValue]="option" nzHide>
+    </nz-option>
+  </nz-select>
+</div>
